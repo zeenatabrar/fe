@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import ContactManagement from './components/ContactManagement';
 import AppointmentScheduling from './components/AppointmentScheduling.js';
-import Navbar from './Navbar.jsx';
+import Navbar from './components/Navbar.jsx';
+
 
 
 const App = () => {
