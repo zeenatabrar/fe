@@ -104,10 +104,13 @@ const ContactManagement = () => {
 
   const handleAddContact = async () => {
     if (editMode) {
+      // Update the contact in edit mode (same as before)
 
     } else {
+      // Add a new contact
       setContacts([...contacts, formData]);
 
+      // Reset form data and hide the form
       setFormData({
         fullName: '',
         email: '',
@@ -116,6 +119,7 @@ const ContactManagement = () => {
       });
       setShowForm(false);
 
+      // Submit data to the external service
       try {
         const response = await fetch('https://tan-lovely-cape-buffalo.cyclic.app/contacts', {
           method: 'POST',
@@ -125,6 +129,7 @@ const ContactManagement = () => {
           body: JSON.stringify(formData),
         });
 
+        // Handle the response, if needed
         if (response.ok) {
           console.log('Data submitted successfully.');
         } else {
@@ -137,9 +142,29 @@ const ContactManagement = () => {
   };
 
   const handleEditContact = (index) => {
+    // Set form data, show the form, and enter edit mode (same as before)
   };
 
-  const handleDeleteContact = (index) => {
+  const handleDeleteContact = async (index) => {
+    // Delete the selected contact
+    const updatedContacts = [...contacts];
+    updatedContacts.splice(index, 1);
+    setContacts(updatedContacts);
+
+    // Delete data from the external service
+    try {
+      const response = await fetch(`https://tan-lovely-cape-buffalo.cyclic.app/contacts/${index}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        console.log('Data deleted successfully.');
+      } else {
+        console.error('Failed to delete data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting data:', error.message);
+    }
   };
 
   return (
@@ -235,8 +260,6 @@ const ContactManagement = () => {
         </div>
       )}
     </Container>
-
-    
   );
 };
 
